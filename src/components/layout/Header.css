@@ -1,14 +1,44 @@
 /* src/components/Header.css */
 
 .crazy-header {
-  position: sticky;   /* sticky navbar */
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  background-color: #141414;
+  background-color: rgba(20, 20, 20, 0.9);
   padding: 12px 0;
   transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.crazy-header.scrolled {
+  background-color: rgba(20, 20, 20, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Light mode styles */
+.crazy-header.light-mode {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.crazy-header.light-mode.scrolled {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.crazy-header.light-mode .crazy-search-bar input {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.crazy-header.light-mode .crazy-nav-link,
+.crazy-header.light-mode .crazy-username {
+  color: #333;
+}
+
+.crazy-header.light-mode .crazy-nav-link:hover {
+  background-color: #f0f0f0;
 }
 
 /* container */
@@ -20,6 +50,7 @@
   margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
+  gap: 20px;
 }
 
 /* logo */
@@ -29,24 +60,46 @@
   font-weight: bold;
   margin: 0;
   white-space: nowrap;
+  font-family: 'Arial Black', Arial, sans-serif;
+  letter-spacing: -1px;
+}
+
+/* Navigation */
+.crazy-nav-desktop {
+  display: flex;
+  gap: 20px;
+  margin-left: 30px;
+}
+
+@media (max-width: 968px) {
+  .crazy-nav-desktop {
+    display: none;
+  }
 }
 
 /* search bar */
 .crazy-search-bar {
-  margin-left: 20px;
-  flex-grow: 1;
-  max-width: 400px;
+  position: relative;
+  flex: 1;
+  max-width: 500px;
+  margin: 0 20px;
 }
 
 .crazy-search-bar input {
   width: 100%;
-  padding: 8px 12px;
-  border: none;
+  padding: 10px 45px 10px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 4px;
-  background-color: #333;
+  background-color: rgba(51, 51, 51, 0.6);
   color: #fff;
   font-size: 14px;
   outline: none;
+  transition: all 0.3s ease;
+}
+
+.crazy-search-bar input:focus {
+  background-color: rgba(51, 51, 51, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .crazy-search-bar input::placeholder {
@@ -54,14 +107,27 @@
 }
 
 .crazy-search-bar button {
-  display: none; /* hidden for clean look */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* right side */
 .crazy-header-right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 }
 
 .crazy-theme-toggle {
@@ -70,28 +136,38 @@
   font-size: 22px;
   cursor: pointer;
   color: #fff;
+  padding: 5px;
+  transition: transform 0.3s ease;
+}
+
+.crazy-theme-toggle:hover {
+  transform: scale(1.1);
 }
 
 /* links */
 .crazy-nav-link {
   color: #fff;
   text-decoration: none;
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 4px;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .crazy-nav-link:hover {
-  background-color: #333;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 .crazy-signup {
   background-color: #e50914;
-  padding: 6px 12px;
+  padding: 8px 16px;
 }
 
 .crazy-signup:hover {
   background-color: #f40612;
+  transform: translateY(-2px);
 }
 
 /* user menu */
@@ -104,16 +180,24 @@
 .crazy-username {
   color: #fff;
   font-weight: 500;
+  white-space: nowrap;
+}
+
+.crazy-profile-link {
+  padding: 6px;
+  display: flex;
+  align-items: center;
 }
 
 .crazy-logout-btn {
   background: none;
   border: 1px solid #e50914;
   color: #e50914;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .crazy-logout-btn:hover {
@@ -128,35 +212,106 @@
   gap: 20px;
 }
 
+/* Mobile menu toggle */
+.crazy-mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  gap: 5px;
+}
+
+.crazy-mobile-menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.crazy-mobile-menu-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.crazy-mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.crazy-mobile-menu-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile menu */
+.crazy-mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #141414;
+  padding: 0 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.crazy-mobile-menu.active {
+  max-height: 300px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.crazy-nav-mobile {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0;
+  gap: 10px;
+}
+
 /* responsive */
-@media (max-width: 768px) {
-  .crazy-header-container {
-    flex-direction: column;
-    gap: 12px;
-    padding: 0 15px;
+@media (max-width: 968px) {
+  .crazy-mobile-menu-toggle {
+    display: flex;
   }
-
-  .crazy-header-left,
-  .crazy-header-right {
-    width: 100%;
-    justify-content: space-between;
-  }
-
+  
   .crazy-search-bar {
     margin: 0;
-    width: 100%;
-    max-width: 100%;
     order: 3;
+    max-width: 100%;
+    flex: 0 0 100%;
+    margin-top: 15px;
+    display: none;
   }
+  
+  .crazy-header-container {
+    flex-wrap: wrap;
+  }
+  
+  .crazy-user-menu .crazy-username,
+  .crazy-auth-links {
+    display: none;
+  }
+}
 
+@media (max-width: 768px) {
+  .crazy-header-container {
+    padding: 0 15px;
+  }
+  
+  .crazy-logo-ti h1 {
+    font-size: 24px;
+  }
+  
+  .crazy-search-bar {
+    margin-top: 10px;
+  }
+  
   .crazy-search-bar input {
-    padding: 6px 10px;
-  }
-
-  .crazy-nav-link,
-  .crazy-logout-btn {
-    font-size: 13px;
-    padding: 5px 8px;
+    padding: 8px 40px 8px 12px;
   }
 }
 
@@ -164,8 +319,12 @@
   .crazy-logo-ti h1 {
     font-size: 22px;
   }
-
+  
   .crazy-theme-toggle {
-    font-size: 18px;
+    font-size: 20px;
+  }
+  
+  .crazy-header-right {
+    gap: 10px;
   }
 }

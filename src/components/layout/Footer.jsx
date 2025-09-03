@@ -17,7 +17,7 @@ function Footer() {
           <div className="f-footer-main">
             <div className="f-footer-logo">
               <h3>
-                Crazy<span>flix</span>
+                Crazyflix
               </h3>
               <p>Your ultimate streaming destination for premium content</p>
 
