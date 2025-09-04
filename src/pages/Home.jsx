@@ -9,6 +9,7 @@ function Home() {
     (state) => state.movies
   );
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Get trending, popular, and recent movies
   const trendingMovies = movies
@@ -26,19 +27,28 @@ function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 50);
+      setShowScrollTop(scrollY > 300);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 🔥 Scroll to Top Function
+  // Fixed Scroll to Top Function
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: "smooth"
     });
+  };
+
+  // Watch Now function for featured movie
+  const handleFeaturedWatchNow = () => {
+    if (featuredMovie) {
+      window.location.href = `/movie/${featuredMovie.id}`;
+    }
   };
 
   if (loading) {
@@ -105,7 +115,7 @@ function Home() {
                   : featuredMovie.description}
               </p>
               <div className="hero-actions">
-                <button className="hero-btn primary">
+                <button className="hero-btn primary" onClick={handleFeaturedWatchNow}>
                   <span className="play-icon">▶</span>
                   Watch Now
                 </button>
@@ -146,12 +156,14 @@ function Home() {
         </section>
       </div>
 
-      {/* Quick Navigation */}
-      <div className="quick-nav">
-        <button className="nav-btn" onClick={scrollToTop}>
-          ↑ Top
-        </button>
-      </div>
+      {/* Scroll to Top Button - Fixed positioning issue */}
+      {showScrollTop && (
+        <div className="quick-nav">
+          <button className="nav-btn" onClick={scrollToTop} aria-label="Scroll to top">
+            ↑
+          </button>
+        </div>
+      )}
     </div>
   );
 }

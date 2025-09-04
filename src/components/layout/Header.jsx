@@ -60,9 +60,9 @@ function Header() {
 
           <nav className="crazy-nav-desktop">
             <Link to="/" className="crazy-nav-link">Home</Link>
-            <Link to="/movies" className="crazy-nav-link">Movies</Link>
-            <Link to="/series" className="crazy-nav-link">TV Series</Link>
-            <Link to="/mylist" className="crazy-nav-link">My List</Link>
+            <Link to="/" className="crazy-nav-link">Movies</Link>
+            <Link to="/" className="crazy-nav-link">TV Series</Link>
+            <Link to="/" className="crazy-nav-link">My List</Link>
           </nav>
         </div>
 

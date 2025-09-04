@@ -299,7 +299,7 @@
 
 @media (max-width: 480px) {
   .crazy-movie-card {
-    width: 145px;
+    width: 140px;
   }
 }
 
@@ -329,3 +329,5 @@
     transition: none;
   }
 }
+
+

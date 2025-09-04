@@ -1,10 +1,11 @@
 import "./MovieCard.css";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function MovieCard({ movie }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const navigate = useNavigate();
 
   const handleImageLoad = () => setImageLoaded(true);
   const handleImageError = () => setImageError(true);
@@ -27,6 +28,7 @@ function MovieCard({ movie }) {
 
   return (
     <div className="crazy-movie-card">
+      {/* Entire card clickable */}
       <Link to={`/movie/${movie.id}`} className="crazy-movie-link">
         <div className="crazy-movie-poster">
           <img
@@ -40,45 +42,16 @@ function MovieCard({ movie }) {
           {!imageLoaded && !imageError && (
             <div className="crazy-poster-skeleton"></div>
           )}
-
-          <div className="crazy-movie-overlay">
-            {/* ✅ Watch Now works as a clickable link */}
-            <Link to={`/movie/${movie.id}`} className="crazy-watch-btn">
-              <span className="crazy-play-icon">▶</span>
-              Watch Now
-            </Link>
-
-            <div className="crazy-action-buttons">
-              <button
-                className="crazy-action-btn crazy-watch-later"
-                aria-label="Add to watchlist"
-              >
-                <span className="crazy-icon">+</span>
-              </button>
-              <button
-                className="crazy-action-btn crazy-like"
-                aria-label="Like"
-              >
-                <span className="crazy-icon">♥</span>
-              </button>
-            </div>
-          </div>
-
-          {movie.isPremium && (
-            <div className="crazy-premium-badge">Premium</div>
-          )}
+          {movie.isPremium && <div className="crazy-premium-badge">Premium</div>}
         </div>
 
+        {/* Movie Info */}
         <div className="crazy-movie-info">
           <h3 className="crazy-movie-title">{movie.title || "Untitled"}</h3>
-
           <div className="crazy-movie-meta">
             <span className="crazy-movie-year">{getYear()}</span>
-            <span className="crazy-movie-rating">
-              <span className="crazy-star">⭐</span> {formattedRating}
-            </span>
+            <span className="crazy-movie-rating">⭐ {formattedRating}</span>
           </div>
-
           <div className="crazy-movie-genres">
             {Array.isArray(movie.genre) &&
               movie.genre.slice(0, 2).map((genre) => (
@@ -87,13 +60,36 @@ function MovieCard({ movie }) {
                 </span>
               ))}
             {movie.genre && movie.genre.length > 2 && (
-              <span className="crazy-genre-tag">
-                +{movie.genre.length - 2}
-              </span>
+              <span className="crazy-genre-tag">+{movie.genre.length - 2}</span>
             )}
           </div>
         </div>
       </Link>
+
+      {/* Overlay actions */}
+      <div className="crazy-movie-overlay">
+        <span
+          className="crazy-watch-btn"
+          onClick={() => navigate(`/movie/${movie.id}`)}
+        >
+          <span className="crazy-play-icon">▶</span> Watch Now
+        </span>
+
+        <div className="crazy-action-buttons">
+          <button
+            className="crazy-action-btn crazy-watch-later"
+            aria-label="Add to watchlist"
+          >
+            <span className="crazy-icon">+</span>
+          </button>
+          <button
+            className="crazy-action-btn crazy-like"
+            aria-label="Like"
+          >
+            <span className="crazy-icon">♥</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
